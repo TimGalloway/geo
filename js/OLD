@@ -1,0 +1,117 @@
+var map;
+var ajaxRequest;
+var plotlist;
+var plotlayers=[];
+
+function roseateTernStyle()
+{
+	return {color: "green"};
+}
+
+function fairyTernStyle()
+{
+	return {color: "purple"};
+}
+
+function lesserCrestedTernStyle()
+{
+	return {color: "blue"};
+}
+
+function initmap() {
+	// set up the map
+	map = new L.Map('map');
+
+	// create the tile layer with correct attribution
+	var osmUrl='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	//var osmUrl='http://gallowayconsulting.no-ip.org/hot/{z}/{x}/{y}.png';
+	var osmAttrib='AVHPL | Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+	var osm = new L.TileLayer(osmUrl, {minZoom: 1, maxZoom: 12, attribution: osmAttrib});		
+
+	// start the map in Western Australia
+	map.setView(new L.LatLng(-31.9535, 115.8605),3);
+	map.addLayer(osm);
+
+	//var geojsonLayer1 = new L.GeoJSON.AJAX("/geo/Dugong.geojson");
+	////L.geoJson(geojsonLayer1, {style: dugongStyle}).addTo(map);
+	//geojsonLayer1.addTo(map);
+
+	//var geojsonLayer1 = new L.GeoJSON.AJAX("/geo/GreyNurseShark.geojson");
+	//geojsonLayer1.addTo(map);
+
+
+	//var dugongLayer;
+	//var sharksLayer;
+	//$.getJSON("/geo/Dugong.geojson", function(data){
+		////// add GeoJSON layer to the map once the file is loaded
+		//dugongLayer = L.geoJson(data,{
+			//style: dugongStyle,
+			//onEachFeature: function(feature, featureLayer){
+				//featureLayer.bindPopup(feature.properties.location);
+			//}
+		//}).addTo(map);
+		//map.fitBounds(dugongLayer.getBounds());
+	//});
+	//$.getJSON("/geo/GreyNurseShark.geojson", function(data){
+		//// add GeoJSON layer to the map once the file is loaded
+		//sharksLayer = L.geoJson(data,{
+			//style: sharksStyle,
+			//onEachFeature: function(feature, featureLayer){
+				//featureLayer.bindPopup(feature.properties.location);
+			//}
+		//}).addTo(map);
+		//map.fitBounds(sharksLayer.getBounds());
+	//});
+
+	//L.control.layers(null, sharksLayer, dugongLayer).addTo(map);
+
+	//$.getJSON("/geo/geojson.php", function(data){
+		//// add GeoJSON layer to the map once the file is loaded
+		//sharksLayer = L.geoJson(data,{
+			//style: sharksStyle,
+			//onEachFeature: function(feature, featureLayer){
+				//featureLayer.bindPopup(feature.properties.species_gr + '<br>' + feature.properties.com_name + '<br>' + feature.properties.location);
+			//}
+		//}).addTo(map);
+		//map.fitBounds(sharksLayer.getBounds());
+	//});
+
+
+	$.getJSON("/geo/geojson.php", function(data){
+
+		var map;
+		// set up the map
+		map = new L.Map('map');
+
+		// create the tile layer with correct attribution
+		var osmUrl='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		//var osmUrl='http://gallowayconsulting.no-ip.org/hot/{z}/{x}/{y}.png';
+		var osmAttrib='AVHPL | Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+		var osm = new L.TileLayer(osmUrl, {minZoom: 1, maxZoom: 12, attribution: osmAttrib});		
+
+		// start the map in Western Australia
+		map.setView(new L.LatLng(-31.9535, 115.8605),3);
+		map.addLayer(osm);
+		map.setZoom(4);
+
+		var RoseateTernLayer = L.geoJson(data, {
+			style: roseateTernStyle,
+			filter: function(feature, layer){
+				return (feature.properties.com_name === "Roseate Tern");
+			}
+		}).addTo(map);
+		var FairyTernLayer = L.geoJson(data, {
+			style: fairyTernStyle,
+			filter: function(feature, layer){
+				return (feature.properties.com_name === "Fairy Tern");
+			}
+		}).addTo(map);
+		var LesserCrestedTernLayer = L.geoJson(data, {
+			style: lesserCrestedTernStyle,
+			filter: function(feature, layer){
+				return (feature.properties.com_name === "Lesser Crested Tern");
+			}
+		}).addTo(map);
+		L.control.layers(null, RoseateTernLayer, FairyTernLayer, LesserCrestedTernLayer ).addTo(map);
+	});
+}

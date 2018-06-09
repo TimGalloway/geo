@@ -1,0 +1,5 @@
+// Find everything 10k around Denham
+
+select gid, species_gr, com_name, location, ST_AsGeoJSON(geom)
+from biologically_important_areas
+WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000);  
