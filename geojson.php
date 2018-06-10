@@ -45,6 +45,8 @@ while ($row = $rs->fetch(PDO::FETCH_ASSOC)) {
     array_push($geojson['features'], $feature);
 }
 header('Content-type: application/json');
+#echo '[';
 echo json_encode($geojson, JSON_NUMERIC_CHECK);
+#echo ']';
 $conn = NULL;
 ?>
