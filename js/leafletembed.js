@@ -1,3 +1,9 @@
+$(document).ready(function()
+    {
+        $("#myTable").tablesorter();
+    }
+);
+
 var map;
 var ajaxRequest;
 var plotlist;
@@ -34,7 +40,7 @@ function getLayerStyle(com_name){
 
 function initmap() {
 	// set up the map
-	map = new L.Map('map',{
+	map = new L.Map('divmap',{
 		center: [-31.9535, 115.8605],
 		zoom: 5
 	});
@@ -77,11 +83,6 @@ function initmap() {
 	    overlaysObj[categoryName] = categoryLG;
 	}
 
-	// Create an empty LayerGroup that will be used to emulate adding / removing all categories.
-	//var allPointsLG = L.layerGroup();
-	//overlaysObj["All Points"] = allPointsLG;
-
-
 	// create the tile layer with correct attribution
 	var streetsUrl='https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
 	var streets = L.tileLayer(
@@ -96,4 +97,31 @@ function initmap() {
 		"Streets": streets
 	};
 	var control = L.control.layers(baseMaps, overlaysObj, { collapsed: false }).addTo(map);
+
+	map.on({
+		overlayadd: function(e) {
+			var name = e.name;
+			name = name.replace(/\s+/g, '-').toLowerCase();
+			var findRows = "#datatable tr." + name;
+			$(findRows).removeClass("hidden");
+		},
+		overlayremove: function(e) {
+			var name = e.name;
+			name = name.replace(/\s+/g, '-').toLowerCase();
+			var findRows = "#datatable tr." + name;
+			$(findRows).addClass("hidden");
+		}
+	});
+
+	var $table = $('#datatable');
+	$.each(geoJsonData.features, function (i, val) {
+		var str = val.properties.com_name;
+		var $r = "<tr class='hidden " + str.replace(/\s+/g, '-').toLowerCase() + "'>";
+    		$r = $r + '<td>' + val.properties.species_gr + '</td>';
+    		$r = $r + '<td>' + val.properties.com_name + '</td>';
+    		$r = $r + '<td>' + val.properties.location + '</td>';
+		$r = $r + "</tr>";
+
+    		$table.append($r);
+	});
 }
