@@ -11,6 +11,7 @@
 <script type="text/javascript" src="leaflet/leaflet.ajax.min.js"></script>
 <script type="text/javascript" src="js/leafletembed.js"></script>
 <script type="text/javascript" src="js/tablesorter/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="js/Leaflet.Spin/leaflet.spin.min.js"></script>
 <script>
 $( document ).ready(function() {
     console.log( "ready!" );

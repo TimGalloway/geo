@@ -48,6 +48,7 @@ function initmap() {
 	var categories = {},
 		category;
 
+	map.spin(true);
 	var geoJsonData;
 	$.ajax({
 		'async': false,
@@ -56,6 +57,7 @@ function initmap() {
 			geoJsonData = data;
 		}
 	});
+	map.spin(false);
 
 	var allPoints = L.geoJson(geoJsonData,{
 		style: function(feature){
