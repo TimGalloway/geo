@@ -98,6 +98,11 @@ function initmap() {
 	};
 	var control = L.control.layers(baseMaps, overlaysObj, { collapsed: false }).addTo(map);
 
+	var searchLayer = L.geoJson().addTo(map);
+
+	L.map('map', {searchControl: {layer: searchLayer}});
+
+
 	map.on({
 		overlayadd: function(e) {
 			var name = e.name;
