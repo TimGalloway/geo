@@ -6,10 +6,18 @@
  * Contact: bryanmcbride.com
  * GitHub:  https://github.com/bmcbride/PHP-Database-GeoJSON
  */
+
+$dataType = $_GET['dataType'];
+
 # Connect to PostgreSQL database
 $conn = new PDO('pgsql:host=localhost;dbname=biologically_important_areas','tim','SuzTL1000');
 # Build SQL SELECT statement and return the geometry as a GeoJSON element
-$sql = 'SELECT gid,species_gr,region,taxon_id,genus,species,com_name,legend,location,public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM biologically_important_areas WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000);  ';
+if ($dataType == "B"){
+    $sql = 'SELECT gid,species_gr,region,taxon_id,genus,species,com_name,legend,location,public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM biologically_important_areas WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000);  ';
+}
+else{
+    $sql = 'SELECT smartline.intertd1_v, smartline.exposure_v,sensitivity_lookup.sensitivity, public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM smartline, sensitivity_lookup WHERE smartline.intertd1_v = sensitivity_lookup.intertd1_v AND smartline.exposure_v = sensitivity_lookup.exposure_v AND ST_DWithin(smartline.geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 100000)';
+}
 /*
 * If bbox variable is set, only return records that are within the bounding box
 * bbox should be a string in the form of 'southwest_lng,southwest_lat,northeast_lng,northeast_lat'

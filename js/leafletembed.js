@@ -12,6 +12,11 @@ var RoseateTernLayer;
 var FairyTernLayer;
 var LesserCrestedTernLayer;
 
+//dataTypes
+// S = smartline
+// B = biologically important areas
+var dataType = 'S';
+
 function roseateTernStyle()
 {
 	return {color: "green"};
@@ -34,6 +39,8 @@ function getLayerStyle(com_name){
 		case 'Roseate Tern' : return { color: "blue" };
 		case 'Wedge-tailed Shearwater' : return { color: "red" };
 		case 'Humpback Whale' : return { color: "purple" };
+		case 'High Sensitivity (ESI Category 8A-8E)' : return { color: "purple" };
+		case 'Unclassified' : return { color: "blue" };
 		default: return { color: "blue" };
 	}
 }
@@ -51,26 +58,45 @@ function initmap() {
 	var geoJsonData;
 	$.ajax({
 		'async': false,
-		'url': "/geo/geojson.php",
+		'url': "/geo/geojson.php?dataType="+dataType,
 		'success': function(data){
 			geoJsonData = data;
 		}
 	});
 
-	var allPoints = L.geoJson(geoJsonData,{
-		style: function(feature){
-			return getLayerStyle(feature.properties.com_name)
-		},
-		onEachFeature: function(feature, layer){
-			layer.bindPopup(feature.properties.species_gr + '<br>' + feature.properties.com_name + '<br>' + feature.properties.location);
-			category = feature.properties.com_name;
-			if (typeof categories[category] === "undefined"){
-				categories[category] = [];
-			}
-			categories[category].push(layer);
-		}
-	});
+    switch(dataType){
+        case 'B':        
+	       var allPoints = L.geoJson(geoJsonData,{
+		      style: function(feature){
+			     return getLayerStyle(feature.properties.com_name)
+		      },
+		      onEachFeature: function(feature, layer){
+			     layer.bindPopup(feature.properties.species_gr + '<br>' + feature.properties.com_name + '<br>' + feature.properties.location);
+			     category = feature.properties.com_name;
+			     if (typeof categories[category] === "undefined"){
+				        categories[category] = [];
+			     }
+			     categories[category].push(layer);
+		      }
+	       });
+        case 'S':
+	       var allPoints = L.geoJson(geoJsonData,{
+		      style: function(feature){
+			     return getLayerStyle(feature.properties.sensitivity)
+		      },
+		      onEachFeature: function(feature, layer){
+			     layer.bindPopup(feature.properties.sensitivity + '<br>' + feature.properties.intertd1_v + '<br>' + feature.properties.exposure_v);
+			     category = feature.properties.sensitivity;
+			     if (typeof categories[category] === "undefined"){
+				        categories[category] = [];
+			     }
+			     categories[category].push(layer);
+		      }
+	       });
+    }
 
+    
+    
 	var overlaysObj = {},
 	    categoryName,
 	    categoryArray,
@@ -115,13 +141,22 @@ function initmap() {
 
 	var $table = $('#datatable');
 	$.each(geoJsonData.features, function (i, val) {
-		var str = val.properties.com_name;
-		var $r = "<tr class='hidden " + str.replace(/\s+/g, '-').toLowerCase() + "'>";
-    		$r = $r + '<td>' + val.properties.species_gr + '</td>';
-    		$r = $r + '<td>' + val.properties.com_name + '</td>';
-    		$r = $r + '<td>' + val.properties.location + '</td>';
-		$r = $r + "</tr>";
-
+        switch(dataType){
+            case 'B':        
+		      var str = val.properties.com_name;
+		      var $r = "<tr class='hidden " + str.replace(/\s+/g, '-').toLowerCase() + "'>";
+    		  $r = $r + '<td>' + val.properties.species_gr + '</td>';
+    		  $r = $r + '<td>' + val.properties.com_name + '</td>';
+    		  $r = $r + '<td>' + val.properties.location + '</td>';
+		      $r = $r + "</tr>";
+            case 'S':
+		      var str = val.properties.sensitivity;
+		      var $r = "<tr class='hidden " + str.replace(/\s+/g, '-').toLowerCase() + "'>";
+    		  $r = $r + '<td>' + val.properties.intertd1_v + '</td>';
+    		  $r = $r + '<td>' + val.properties.exposure_v + '</td>';
+    		  $r = $r + '<td>' + val.properties.sensitivity + '</td>';
+		      $r = $r + "</tr>";
+        }
     		$table.append($r);
 	});
 }
