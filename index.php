@@ -29,6 +29,22 @@ $( document ).ready(function() {
       </div>
      </p>
     </div>
+    <div class="header"
+         <p>
+    <div class="param">
+    Param1: <select><option>A</option><option>B</option></select>
+        </div>
+    <div class="param">
+    Param1: <select><option>A</option><option>B</option></select>
+        </div>
+    <div class="param">
+    Param1: <select><option>A</option><option>B</option></select>
+        </div>
+    <div class="param">
+    <input type="button" value="GO!">
+        </div>
+         </p>
+    </div>
     <div class="content">
         <div id="left">
         </div>
