@@ -1,3 +1,36 @@
 .divmap { height: 400px }
 .divdatatable { height: 200px }
 .hidden {display: none }
+body, html{
+    padding:0;
+    margin:0;
+    position:relative;
+    height:100%
+}
+.header, .footer{
+    width:100%;
+    background:#ccc;
+    padding:10px;
+    box-sizing:border-box
+}
+.content{
+    background:#eee;
+    width:100%;
+    padding:10px;
+    height:100%;
+    box-sizing:border-box;
+    padding:10px;
+    display:table
+}
+.left{
+    width:auto;
+    background:#bbb;
+    height:100%;
+    display:table-cell
+}
+.right{
+    background:#aaa;
+    height:100%;
+    display:table-cell;
+    width:100%
+}

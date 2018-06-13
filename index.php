@@ -19,19 +19,29 @@ $( document ).ready(function() {
 </script>
 </head>
 <body>
-<div id='divmap' class='divmap'></div>
-<div id='divdatatable' class='divdatatable'>
-<table id="datatable" class="tablesorter">
- <thead>
-  <tr>
-   <th>Species</th>
-   <th>Common Name</th>
-   <th>Location</th>
-  </tr>
- </thead>
- <tbody>
- </tbody>
-</table>
-</div>
+    <div class="header">
+    Header Content
+    </div>
+    <div class="content">
+        <div id="left">
+          Left Content
+        </div>
+        <div class="right">
+           <div id='divmap' class='divmap'></div>
+           <div id='divdatatable' class='divdatatable'>
+               <table id="datatable" class="tablesorter">
+               <thead>
+               <tr>
+                 <th>Species</th>
+                 <th>Common Name</th>
+                 <th>Location</th>
+                </tr>
+               </thead>
+               <tbody>
+               </tbody>
+               </table>
+           </div>
+         </div>
+     </div>
 </body>
 </html>
