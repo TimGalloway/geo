@@ -20,11 +20,17 @@ $( document ).ready(function() {
 </head>
 <body>
     <div class="header">
-    Header Content
+     <p>
+      <div class="headerimage">
+        <img src="images/watermark.png" />
+      </div>
+      <div class="headertitle">
+       Sensitivity Atlas
+      </div>
+     </p>
     </div>
     <div class="content">
         <div id="left">
-          Left Content
         </div>
         <div class="right">
            <div id='divmap' class='divmap'></div>
