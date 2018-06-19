@@ -14,7 +14,7 @@
 <script>
 $( document ).ready(function() {
     console.log( "ready!" );
-    initmap();
+    //initmap();
 });
 </script>
 </head>
@@ -38,10 +38,14 @@ $( document ).ready(function() {
     Param1: <select><option>A</option><option>B</option></select>
         </div>
     <div class="param">
-    Param1: <select><option>A</option><option>B</option></select>
+    DataType: <select name="selDataType" id="selDataType">
+		 <option value="S">Smartline</option>
+		 <option value="B">Bio Sensitive</option>
+        <option value="C">Both</option>
+              </select>
         </div>
     <div class="param">
-    <input type="button" value="GO!">
+    <input type="button" value="GO!" id="btnGo" name="btnGo">
         </div>
          </p>
     </div>

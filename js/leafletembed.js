@@ -1,6 +1,11 @@
 $(document).ready(function()
     {
         $("#myTable").tablesorter();
+    
+        //Setup click for button
+        $("#btnGo").click(function(){
+          initmap($("#selDataType").val());
+        });
     }
 );
 
@@ -16,7 +21,7 @@ var LesserCrestedTernLayer;
 // S = smartline
 // B = biologically important areas
 // C = Combined smartline and biologically important areas
-var dataType = 'C';
+//var dataType = 'C';
 
 function roseateTernStyle()
 {
@@ -46,8 +51,11 @@ function getLayerStyle(com_name){
 	}
 }
 
-function initmap() {
+function initmap(dataType) {
 	// set up the map
+    if (map != undefined){
+      map.remove();
+    }
 	map = new L.Map('divmap',{
 		center: [-31.9535, 115.8605],
 		zoom: 5
