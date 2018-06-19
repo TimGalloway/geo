@@ -15,7 +15,8 @@ var LesserCrestedTernLayer;
 //dataTypes
 // S = smartline
 // B = biologically important areas
-var dataType = 'S';
+// C = Combined smartline and biologically important areas
+var dataType = 'C';
 
 function roseateTernStyle()
 {
@@ -79,7 +80,9 @@ function initmap() {
 			     categories[category].push(layer);
 		      }
 	       });
+               break;
         case 'S':
+        case 'C':
 	       var allPoints = L.geoJson(geoJsonData,{
 		      style: function(feature){
 			     return getLayerStyle(feature.properties.sensitivity)
@@ -93,6 +96,7 @@ function initmap() {
 			     categories[category].push(layer);
 		      }
 	       });
+               break;
     }
 
     
