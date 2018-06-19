@@ -16,7 +16,20 @@ if ($dataType == "B"){
     $sql = 'SELECT gid,species_gr,region,taxon_id,genus,species,com_name,legend,location,public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM biologically_important_areas WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000);  ';
 }
 else{
+  if ($dataType == "C"){
+    $sql = "SELECT species as intertd1_v, genus as exposure_v ,com_name as sensitivity , public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson ";
+    $sql.= " FROM biologically_important_areas ";
+    $sql.= " WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000) ";
+    $sql.=" union  ";
+    $sql.= "SELECT smartline.intertd1_v, smartline.exposure_v,sensitivity_lookup.sensitivity , public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson ";
+    $sql.= " FROM smartline, sensitivity_lookup ";
+    $sql.= "  WHERE smartline.intertd1_v = sensitivity_lookup.intertd1_v ";
+    $sql.= "   AND smartline.exposure_v = sensitivity_lookup.exposure_v ";
+    $sql.= "   AND ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 500000)  limit 5000  ";
+  }
+  else{
     $sql = 'SELECT smartline.intertd1_v, smartline.exposure_v,sensitivity_lookup.sensitivity, public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM smartline, sensitivity_lookup WHERE smartline.intertd1_v = sensitivity_lookup.intertd1_v AND smartline.exposure_v = sensitivity_lookup.exposure_v AND ST_DWithin(smartline.geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 100000)';
+  }
 }
 /*
 * If bbox variable is set, only return records that are within the bounding box
