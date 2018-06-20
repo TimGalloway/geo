@@ -22,10 +22,22 @@ $( document ).ready(function() {
     <div class="header">
      <p>
       <div class="headerimage">
-        <img src="images/watermark.png" />
+        <img src="
+        <?php
+          if($_REQUEST['live'] === 'Y'){
+            echo "images/watermark.png";
+          }
+        ?>
+        " />
       </div>
       <div class="headertitle">
-       Sensitivity Atlas
+        <?php
+          if($_REQUEST['live'] === 'Y'){
+            echo "Sensitivity Atlas";
+          }else{
+              echo "Test Geo System";
+          }
+          ?>
       </div>
      </p>
     </div>

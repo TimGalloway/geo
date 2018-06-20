@@ -127,9 +127,16 @@ function initmap(dataType) {
 		streetsUrl,
 		{
 			id: 'mapbox.streets',
-			attribution: 'AVHPL | Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'
+			attribution: 'Test Company | Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'
 		}
 	).addTo(map);
+	//var streets = L.tileLayer(
+	//	streetsUrl,
+	//	{
+	//		id: 'mapbox.streets',
+	//		attribution: 'AVHPL | Map data © OpenStreetMap //contributors, CC-BY-SA, Imagery © CloudMade'
+	//	}
+	//).addTo(map);
 
 	var baseMaps = {
 		"Streets": streets
