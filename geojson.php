@@ -13,7 +13,7 @@ $dataType = $_GET['dataType'];
 $conn = new PDO('pgsql:host=localhost;dbname=biologically_important_areas','tim','SuzTL1000');
 # Build SQL SELECT statement and return the geometry as a GeoJSON element
 if ($dataType == "B"){
-    $sql = 'SELECT gid,species_gr,region,taxon_id,genus,species,com_name,legend,location,public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM biologically_important_areas WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000);  ';
+    $sql = 'SELECT gid,species_gr,region,taxon_id,genus,species,com_name,com_name, as classname, legend,location,public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM biologically_important_areas WHERE ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 10000);  ';
 }
 else{
   if ($dataType == "C"){
@@ -28,7 +28,9 @@ else{
     $sql.= "   AND ST_DWithin(geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 500000)  limit 5000  ";
   }
   else{
-    $sql = 'SELECT smartline.intertd1_v, smartline.exposure_v,sensitivity_lookup.sensitivity, public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM smartline, sensitivity_lookup WHERE smartline.intertd1_v = sensitivity_lookup.intertd1_v AND smartline.exposure_v = sensitivity_lookup.exposure_v AND ST_DWithin(smartline.geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 100000)';
+    $sql = 'SELECT smartline.intertd1_v, smartline.exposure_v,sensitivity_lookup.sensitivity,
+    sensitivity_lookup.classname,
+    public.ST_AsGeoJSON(public.ST_Transform((geom),4326),6) AS geojson FROM smartline, sensitivity_lookup WHERE smartline.intertd1_v = sensitivity_lookup.intertd1_v AND smartline.exposure_v = sensitivity_lookup.exposure_v AND ST_DWithin(smartline.geom, ST_MakePoint(113.53538900000001, -25.928723)::geography, 100000)';
   }
 }
 /*

@@ -97,7 +97,7 @@ function initmap(dataType) {
 		      },
 		      onEachFeature: function(feature, layer){
 			     layer.bindPopup(feature.properties.sensitivity + '<br>' + feature.properties.intertd1_v + '<br>' + feature.properties.exposure_v);
-			     category = feature.properties.sensitivity;
+			     category = feature.properties.sensitivity + '|' + feature.properties.classname;
 			     if (typeof categories[category] === "undefined"){
 				        categories[category] = [];
 			     }
@@ -116,9 +116,12 @@ function initmap(dataType) {
 
 	for (categoryName in categories) {
 	    categoryArray = categories[categoryName];
+        var arrCat = categoryName.split("|");
+        
 	    categoryLG = L.layerGroup(categoryArray);
-	    categoryLG.categoryName = categoryName;
-	    overlaysObj[categoryName] = categoryLG;
+	    categoryLG.categoryName = arrCat[0];
+        categoryLG.options = {'class': arrCat[1]};
+	    overlaysObj[arrCat[0]] = categoryLG;
 	}
 
 	// create the tile layer with correct attribution
@@ -154,13 +157,13 @@ function initmap(dataType) {
 
 	map.on({
 		overlayadd: function(e) {
-			var name = e.name;
+			var name = e.layer.options.class;
 			name = name.replace(/\s+/g, '-').toLowerCase();
 			var findRows = "#datatable tr." + name;
 			$(findRows).removeClass("hidden");
 		},
 		overlayremove: function(e) {
-			var name = e.name;
+			var name = e.layer.options.class;
 			name = name.replace(/\s+/g, '-').toLowerCase();
 			var findRows = "#datatable tr." + name;
 			$(findRows).addClass("hidden");
@@ -171,14 +174,14 @@ function initmap(dataType) {
 	$.each(geoJsonData.features, function (i, val) {
         switch(dataType){
             case 'B':        
-		      var str = val.properties.com_name;
+		      var str = val.properties.classname;
 		      var $r = "<tr class='hidden " + str.replace(/\s+/g, '-').toLowerCase() + "'>";
     		  $r = $r + '<td>' + val.properties.species_gr + '</td>';
     		  $r = $r + '<td>' + val.properties.com_name + '</td>';
     		  $r = $r + '<td>' + val.properties.location + '</td>';
 		      $r = $r + "</tr>";
             case 'S':
-		      var str = val.properties.sensitivity;
+		      var str = val.properties.classname;
 		      var $r = "<tr class='hidden " + str.replace(/\s+/g, '-').toLowerCase() + "'>";
     		  $r = $r + '<td>' + val.properties.intertd1_v + '</td>';
     		  $r = $r + '<td>' + val.properties.exposure_v + '</td>';
