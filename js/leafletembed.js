@@ -138,8 +138,17 @@ function initmap(dataType) {
 	//	}
 	//).addTo(map);
 
+	var roads = L.gridLayer.googleMutant({
+            type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+        }).addTo(map);
+	var satellite = L.gridLayer.googleMutant({
+            type: 'satellite' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+        }).addTo(map);
+
 	var baseMaps = {
-		"Streets": streets
+		"MapBox": streets,
+		"Google - Roads": roads,
+		"Google - Satellite": satellite
 	};
 	var control = L.control.layers(baseMaps, overlaysObj, { collapsed: false }).addTo(map);
 

@@ -10,6 +10,8 @@
 <script type="text/javascript" src="leaflet/leaflet-search.min.js"></script>
 <script type="text/javascript" src="leaflet/leaflet.ajax.min.js"></script>
 <script type="text/javascript" src="js/leafletembed.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq-0zmtnZmoVjmcAkddBCycSkYtpwCs1U" async defer></script>
+<script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
 <script type="text/javascript" src="js/tablesorter/jquery.tablesorter.min.js"></script>
 <script>
 $( document ).ready(function() {
