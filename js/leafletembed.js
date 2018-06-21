@@ -73,24 +73,24 @@ function initmap(dataType) {
 		}
 	});
 
-    switch(dataType){
-        case 'B':        
-	       var allPoints = L.geoJson(geoJsonData,{
-		      style: function(feature){
-			     return getLayerStyle(feature.properties.com_name)
-		      },
-		      onEachFeature: function(feature, layer){
-			     layer.bindPopup(feature.properties.species_gr + '<br>' + feature.properties.com_name + '<br>' + feature.properties.location);
-			     category = feature.properties.com_name;
-			     if (typeof categories[category] === "undefined"){
-				        categories[category] = [];
-			     }
-			     categories[category].push(layer);
-		      }
-	       });
-               break;
-        case 'S':
-        case 'C':
+    //switch(dataType){
+    //    case 'B':        
+    //	       var allPoints = L.geoJson(geoJsonData,{
+	//	      style: function(feature){
+	//		     return getLayerStyle(feature.properties.com_name)
+	//	      },
+	//	      onEachFeature: function(feature, layer){
+	//		     layer.bindPopup(feature.properties.species_gr + '<br>' + feature.properties.com_name + '<br>' + //feature.properties.location);
+			 //    category = feature.properties.com_name;
+			   //  if (typeof categories[category] === "undefined"){
+				 //       categories[category] = [];
+//			     }
+//			     categories[category].push(layer);
+//		      }
+//	       });
+  //             break;
+    //    case 'S':
+      //  case 'C':
 	       var allPoints = L.geoJson(geoJsonData,{
 		      style: function(feature){
 			     return getLayerStyle(feature.properties.sensitivity)
@@ -104,8 +104,8 @@ function initmap(dataType) {
 			     categories[category].push(layer);
 		      }
 	       });
-               break;
-    }
+        //       break;
+//    }
 
     
     
