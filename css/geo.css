@@ -1,5 +1,8 @@
 .divmap { height: 400px }
-.divdatatable { height: 200px }
+.divdatatable { 
+    height: 350px;
+    overflow-y: scroll;
+}
 .hidden {display: none }
 body, html{
     padding:0;
