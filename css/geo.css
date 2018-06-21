@@ -28,10 +28,9 @@ body, html{
 .content{
     background:#eee;
     width:100%;
-    padding:10px;
     height:100%;
     box-sizing:border-box;
-    padding:10px;
+    padding:0px;
     display:table
 }
 .left{
@@ -44,5 +43,7 @@ body, html{
     background:#aaa;
     height:100%;
     display:table-cell;
-    width:100%
+    width:100%;
+    padding:0px;
+    border:0px;
 }
